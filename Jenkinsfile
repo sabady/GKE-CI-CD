@@ -36,7 +36,7 @@ pipeline {
     stage('Build Docker Image') {
       steps{
         script {
-          app = docker.build("jenkins-004/webapp")
+          docker.build "jenkins-004/webapp"
         }
       }
     }
