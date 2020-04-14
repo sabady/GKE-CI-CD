@@ -35,7 +35,7 @@ pipeline {
 
     stage('Build Docker Image') {
       steps{
-        container(dind) {
+        container('dind') {
           sh "docker build -t $registry_prefix$webapp webapp"
           sh "docker push $registry_prefix$webapp"
         }
