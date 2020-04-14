@@ -36,18 +36,18 @@ pipeline {
       }
     }
 
-    stage('Push Docker Image') {
-      steps {
+    //stage('Push Docker Image') {
+     // steps {
       //  container('dind') {
-          script {
-            docker.withRegistry('https://gcr.io', 'gcr:jenkins-gcr-sa@jenkins-004.iam.gserviceaccount.com') {
-              dockerImage.push()
+     //     script {
+      //      docker.withRegistry('https://gcr.io', 'gcr:jenkins-gcr-sa@jenkins-004.iam.gserviceaccount.com') {
+     //         dockerImage.push()
               //docker.push("eu.gcr.io/jenkins-004/webapp")
-            }
+      //      }
        //   }
-        }
-      }
-    }
+     //   }
+     // }
+  //  }
 
     stage('Deploy apps') {
       steps {
