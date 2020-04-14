@@ -51,7 +51,7 @@ pipeline {
 
     stage('Deploy apps') {
       steps {
-        withKubeConfig([credentialsId: '38579427-0849-4338-aba4-2591a583c4aa', serverUrl: 'https://kubernetes.default']){
+        withKubeConfig([credentialsId: 'jenkins-004', serverUrl: 'https://kubernetes.default']){
           sh 'kubectl apply -f webapp.yaml'
           sh 'kubectl apply -f intense.yaml'
           sh 'kubectl autoscale deployment intense --cpu-percent=50 --min=1 --max=10'
