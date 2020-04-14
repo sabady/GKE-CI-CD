@@ -38,12 +38,13 @@ pipeline {
 
     stage('Push Docker Image') {
       steps {
-        container('dind') {
+      //  container('dind') {
           script {
-            docker.withRegistry('https://eu.gcr.io', 'gcr:jenkins-gcr-sa@jenkins-004.iam.gserviceaccount.com') {
-              docker.push("eu.gcr.io/jenkins-004/webapp")
+            docker.withRegistry('https://gcr.io', 'gcr:jenkins-gcr-sa@jenkins-004.iam.gserviceaccount.com') {
+              dockerImage.push()
+              //docker.push("eu.gcr.io/jenkins-004/webapp")
             }
-          }
+       //   }
         }
       }
     }
