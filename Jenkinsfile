@@ -7,13 +7,7 @@ pipeline {
       defaultContainer 'maven' 
     }
   }
-  environment {
-    registry_prefix = "eu.gcr.io/jenkins-004/"
-    image_name = "webapp"
-  }
-
-    stages {
-
+  stages {
     stage('Checkout Source') {
       steps {
         git 'https://github.com/sabady/GKE-CI-CD.git'
@@ -36,7 +30,7 @@ pipeline {
       steps{
         container('dind') {
           script {
-            docker.build "jenkins-004/webapp"
+            docker.build "eu.gcr.io/jenkins-004/webapp"
           }
         }
       }
@@ -47,7 +41,7 @@ pipeline {
         container('dind') {
           script {
             docker.withRegistry('https://eu.gcr.io', 'gcr:jenkins-gcr-sa@jenkins-004.iam.gserviceaccount.com') {
-              docker.push("enkins-004/webapp")
+              docker.push("eu.gcr.io/jenkins-004/webapp")
             }
           }
         }
