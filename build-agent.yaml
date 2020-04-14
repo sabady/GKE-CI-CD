@@ -16,6 +16,7 @@ spec:
     - name: kubectl
       image: buoyantio/kubectl:latest
       imagePullPolicy: Always 
+      command: ["tail", "-f", "/dev/null"]
     - name: dind
       image: docker:latest
       command: ["tail", "-f", "/dev/null"]
