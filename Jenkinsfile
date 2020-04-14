@@ -44,9 +44,11 @@ pipeline {
 
     stage('Push Docker Image') {
       steps {
-        script {
-          docker.withRegistry('https://eu.gcr.io', 'gcr:jenkins-gcr-sa@jenkins-004.iam.gserviceaccount.com') {
-            app.push("latest")
+        container('dind') {
+          script {
+            docker.withRegistry('https://eu.gcr.io', 'gcr:jenkins-gcr-sa@jenkins-004.iam.gserviceaccount.com') {
+              docker.push("enkins-004/webapp")
+            }
           }
         }
       }
