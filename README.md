@@ -16,6 +16,8 @@ https://www.youtube.com/watch?v=ObGR0EfVPlg
 The `Jenkinsfile` (i.e. Pipeline) builds and deploys the Java application on GKE.
 
 A second application is being deployed to demonstrate Horizantal Pod Autoscaling.
+The intense folder contains all you need for the creation of the image.
+
 In order to increase the load follow the below procedure.
 
 First, find the application url.
