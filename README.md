@@ -6,10 +6,11 @@ main application works as expected. The results of these tests are saved to a
 JUnit XML report.
 
 Assumptions:
-1. Jenkins is deployed on Kubernetes cluster.
+1. Jenkins is deployed on Kubernetes cluster and Docker registry role configured.
 2. Kubernetes plugin is installed and cloud is configured properly.
 
 Tutorials can be found at:
+https://itnext.io/setup-jenkins-with-google-container-registry-2f8d39aaa275
 https://cloud.google.com/solutions/jenkins-on-kubernetes-engine-tutorial
 https://www.youtube.com/watch?v=ObGR0EfVPlg
 
