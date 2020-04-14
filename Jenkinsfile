@@ -36,7 +36,7 @@ pipeline {
     stage('Build Docker Image') {
       steps{
         container('dind') {
-          sh "docker build -t $registry_prefix$webapp webapp"
+          sh "docker build -t eu.gcr.io/jenkins-004/webapp"
         }
       }
     }
@@ -44,12 +44,12 @@ pipeline {
     stage('Push Docker Image') {
       steps{
         container('dind') {
-          sh "docker push $registry_prefix$webapp"
+          sh "docker push eu.gcr.io/jenkins-004/webapp"
         }
       }
     }
     stage('Deploy apps') {
-      steps{
+      withKubeConfig([credentialsId: '38579427-0849-4338-aba4-2591a583c4aa', serverUrl: 'https://kubernetes.default']){
         sh 'kubectl apply -f webapp.yaml'
         sh 'kubectl apply -f intense.yaml'
         sh 'kubectl autoscale deployment intense --cpu-percent=50 --min=1 --max=10'
