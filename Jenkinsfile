@@ -51,14 +51,16 @@ pipeline {
 
     stage('Deploy apps') {
       steps {
-        withKubeConfig([credentialsId: 'jenkins-004', serverUrl: 'https://35.228.234.98']) { //kubernetes.default']){
-          sh 'echo $KUBECONFIG'
-          sh 'kubectl apply -f webapp.yaml'
-          sh 'kubectl apply -f intense.yaml'
-          sh 'kubectl autoscale deployment intense --cpu-percent=50 --min=1 --max=10'
-          sh 'kubectl expose deployment webapp --type=LoadBalancer --name=webapp'
-          sh 'kubectl expose deployment intense --type=LoadBalancer --name=intense'
-          sh 'kubectl apply -f ingress.yaml'
+        container('kubectl') {
+          withKubeConfig([credentialsId: 'jenkins-004', serverUrl: 'https://35.228.234.98']) { //kubernetes.default']){
+            sh 'echo $KUBECONFIG'
+            sh 'kubectl apply -f webapp.yaml'
+            sh 'kubectl apply -f intense.yaml'
+            sh 'kubectl autoscale deployment intense --cpu-percent=50 --min=1 --max=10'
+            sh 'kubectl expose deployment webapp --type=LoadBalancer --name=webapp'
+            sh 'kubectl expose deployment intense --type=LoadBalancer --name=intense'
+            sh 'kubectl apply -f ingress.yaml'
+          }
         }
       }
     }
