@@ -36,16 +36,18 @@ pipeline {
     stage('Build Docker Image') {
       steps{
         container('dind') {
-          sh "echo Docker build"
           sh "docker build -t $registry_prefix$webapp webapp"
-          sh "echo *******"
-          sh "echo Docker push"
-          sh "docker push $registry_prefix$webapp"
-          sh "echo *******"
         }
       }
     }
 
+    stage('Push Docker Image') {
+      steps{
+        container('dind') {
+          sh "docker push $registry_prefix$webapp"
+        }
+      }
+    }
     stage('Deploy apps') {
       steps{
         sh 'kubectl apply -f webapp.yaml'
