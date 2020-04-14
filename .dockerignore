@@ -1,0 +1,6 @@
+Jenkinsfile
+*.yaml
+*.xml
+README*
+src/*
+intense/*

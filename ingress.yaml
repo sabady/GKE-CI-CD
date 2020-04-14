@@ -1,0 +1,17 @@
+# ingress.yaml
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: webapp
+          servicePort: 80
+      - path: /intense
+        backend:
+          serviceName: loadtest
+          servicePort: 80

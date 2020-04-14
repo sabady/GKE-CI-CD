@@ -1,23 +1,29 @@
 pipeline {
-
+  agent {
+    kubernetes {
+      label 'app' 
+      idleMinutes 5 
+      yamlFile 'build-agent.yaml'
+      defaultContainer 'maven' 
+    }
+  }
   environment {
-    registry = "us.gcr.io/jenkins-03-273806/"
-    dockerImage = ""
+    registry_prefix = "eu.gcr.io/jenkins-004/"
+    image_name = "webapp"
   }
 
-  agent { label 'kubepod' }
-
-  stages {
+    stages {
 
     stage('Checkout Source') {
       steps {
-        git 'https://github.com/sabady/simple-java-maven-app.git'
+        git 'https://github.com/sabady/GKE-CI-CD.git'
       }
     }
 
     stage('Build Maven') {
       steps {
-        sh 'mvn -B -DskipTests clean package'
+        //sh 'mvn -B -DskipTests clean package'
+        sh 'mvn clean install'
       }
     }
 
@@ -27,32 +33,25 @@ pipeline {
       }
     }
 
-    stage('Build image') {
+    stage('Build Docker Image') {
       steps{
-        script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        container(dind) {
+          sh "docker build -t $registry_prefix$webapp webapp"
+          sh "docker push $registry_prefix$webapp"
         }
       }
     }
 
-    stage('Push Image') {
+    stage('Deploy apps') {
       steps{
-        script {
-          docker.withRegistry( "" ) {
-            dockerImage.push()
-          }
-        }
+        sh 'kubectl apply -f webapp.yaml'
+        sh 'kubectl apply -f intense.yaml'
+        sh 'kubectl autoscale deployment intense --cpu-percent=50 --min=1 --max=10'
+        sh 'kubectl expose deployment webapp --type=LoadBalancer --name=webapp'
+        sh 'kubectl expose deployment intense --type=LoadBalancer --name=intense'
+        sh 'kubectl apply -f ingress.yaml'
       }
     }
-
-    //stage('Deploy App') {
-      //steps {
-        //script {
-          //kubernetesDeploy(configs: "simple-java-app.yaml", kubeconfigId: "mykubeconfig")
-        //}
-      //}
-    //}
-
   }
 
 }
