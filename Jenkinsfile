@@ -53,7 +53,7 @@ pipeline {
       steps {
         container('kubectl') {
           withKubeConfig([credentialsId: 'jenkins-004', serverUrl: 'https://kubernetes.default']){
-            sh 'echo $KUBECONFIG'
+            //sh 'echo $KUBECONFIG'
             sh 'kubectl apply -f webapp.yaml'
             sh 'kubectl apply -f intense.yaml'
             sh 'kubectl autoscale deployment intense --cpu-percent=50 --min=1 --max=10'
