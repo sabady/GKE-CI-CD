@@ -5,6 +5,14 @@ The repository contains a simple Java application which outputs the string
 main application works as expected. The results of these tests are saved to a
 JUnit XML report.
 
+Assumptions:
+1. Jenkins is deployed on Kubernetes cluster.
+2. Kubernetes plugin is installed and cloud is configured properly.
+
+Tutorials can be found at:
+https://cloud.google.com/solutions/jenkins-on-kubernetes-engine-tutorial
+https://www.youtube.com/watch?v=ObGR0EfVPlg
+
 The `Jenkinsfile` (i.e. Pipeline) builds and deploys the Java application on GKE.
 
 A second application is being deployed to demonstrate Horizantal Pod Autoscaling.
