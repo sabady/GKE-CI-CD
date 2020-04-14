@@ -22,7 +22,6 @@ pipeline {
 
     stage('Build Maven') {
       steps {
-        //sh 'mvn -B -DskipTests clean package'
         sh 'mvn clean install'
       }
     }
@@ -35,8 +34,10 @@ pipeline {
 
     stage('Build Docker Image') {
       steps{
-        script {
-          docker.build "jenkins-004/webapp"
+        container('dind') {
+          script {
+            docker.build "jenkins-004/webapp"
+          }
         }
       }
     }
