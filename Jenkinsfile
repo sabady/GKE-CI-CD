@@ -36,7 +36,7 @@ pipeline {
     stage('Build Docker Image') {
       steps{
         container('dind') {
-          sh "docker build -t eu.gcr.io/jenkins-004/webapp"
+          sh "docker build -t eu.gcr.io/jenkins-004/webapp ."
         }
       }
     }
