@@ -48,14 +48,17 @@ pipeline {
         }
       }
     }
+
     stage('Deploy apps') {
-      withKubeConfig([credentialsId: '38579427-0849-4338-aba4-2591a583c4aa', serverUrl: 'https://kubernetes.default']){
-        sh 'kubectl apply -f webapp.yaml'
-        sh 'kubectl apply -f intense.yaml'
-        sh 'kubectl autoscale deployment intense --cpu-percent=50 --min=1 --max=10'
-        sh 'kubectl expose deployment webapp --type=LoadBalancer --name=webapp'
-        sh 'kubectl expose deployment intense --type=LoadBalancer --name=intense'
-        sh 'kubectl apply -f ingress.yaml'
+      steps{
+        withKubeConfig([credentialsId: '38579427-0849-4338-aba4-2591a583c4aa', serverUrl: 'https://kubernetes.default']){
+          sh 'kubectl apply -f webapp.yaml'
+          sh 'kubectl apply -f intense.yaml'
+          sh 'kubectl autoscale deployment intense --cpu-percent=50 --min=1 --max=10'
+          sh 'kubectl expose deployment webapp --type=LoadBalancer --name=webapp'
+          sh 'kubectl expose deployment intense --type=LoadBalancer --name=intense'
+          sh 'kubectl apply -f ingress.yaml'
+        }
       }
     }
   }
