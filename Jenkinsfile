@@ -50,7 +50,7 @@ pipeline {
       //  container('dind') {
       //    sh "docker push eu.gcr.io/jenkins-004/webapp"
       //  }
-      }
+      //}
     }
 
     stage('Deploy apps') {
