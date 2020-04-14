@@ -52,7 +52,7 @@ pipeline {
     stage('Deploy apps') {
       steps {
         container('kubectl') {
-          withKubeConfig([credentialsId: 'jenkins-004', serverUrl: 'https://35.228.234.98']) { //kubernetes.default']){
+          withKubeConfig([credentialsId: 'jenkins-004', serverUrl: 'https://kubernetes.default']){
             sh 'echo $KUBECONFIG'
             sh 'kubectl apply -f webapp.yaml'
             sh 'kubectl apply -f intense.yaml'
