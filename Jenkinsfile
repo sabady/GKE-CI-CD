@@ -43,18 +43,17 @@ pipeline {
     }
 
     stage('Push Docker Image') {
-      docker.withRegistry('https://eu.gcr.io', 'gcr:jenkins-gcr-sa@jenkins-004.iam.gserviceaccount.com') {
-        app.push("latest")
+      steps {
+        script {
+          docker.withRegistry('https://eu.gcr.io', 'gcr:jenkins-gcr-sa@jenkins-004.iam.gserviceaccount.com') {
+            app.push("latest")
+          }
+        }
       }
-      //steps{
-      //  container('dind') {
-      //    sh "docker push eu.gcr.io/jenkins-004/webapp"
-      //  }
-      //}
     }
 
     stage('Deploy apps') {
-      steps{
+      steps {
         withKubeConfig([credentialsId: '38579427-0849-4338-aba4-2591a583c4aa', serverUrl: 'https://kubernetes.default']){
           sh 'kubectl apply -f webapp.yaml'
           sh 'kubectl apply -f intense.yaml'
