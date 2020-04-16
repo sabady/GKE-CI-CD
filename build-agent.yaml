@@ -8,9 +8,9 @@ spec:
       command: ["tail", "-f", "/dev/null"]  
       imagePullPolicy: Always
       ports:
-      - containerPort: 8090
+      - containerPort: 8088
         name: webapp
-        hostPort: 8090
+        hostPort: 8088
       resources:  
         requests:
           memory: "8Gi"
