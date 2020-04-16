@@ -26,15 +26,22 @@ pipeline {
       }
     }
 
-    stage('Build Docker Image') {
-      steps{
-        container('dind') {
-          script {
-            docker.build "eu.gcr.io/jenkins-004/webapp"
-          }
-        }
+    stage('Run Maven') {
+      steps {
+        sh 'cp /home/jenkins/agent/workspace/Qwilt-pipeline/target/my-app-1.0-SNAPSHOT.jar ./webapp.jar'
+        sh 'java -jar ./webapp.jar'
       }
     }
+
+    //stage('Build Docker Image') {
+      //steps{
+        //container('dind') {
+          //script {
+            //docker.build "eu.gcr.io/jenkins-004/webapp"
+          //}
+        //}
+      //}
+    //}
 
     //stage('Push Docker Image') {
      // steps {

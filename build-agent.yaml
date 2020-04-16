@@ -24,3 +24,29 @@ spec:
     - name: docker
       hostPath:
         path: /var/run/docker.sock
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp
+spec:
+  selector:
+    name: maven
+  ports:
+    - protocol: TCP
+      port: 80
+      type: LoadBalancer
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: webapp
+          servicePort: 80
+      
