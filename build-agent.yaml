@@ -6,7 +6,11 @@ spec:
     - name: maven
       image: maven:3.6.3-jdk-8-slim
       command: ["tail", "-f", "/dev/null"]  
-      imagePullPolicy: Always 
+      imagePullPolicy: Always
+      ports:
+      - containerPort: 8090
+        name: webapp
+        hostPort: 8090
       resources:  
         requests:
           memory: "8Gi"
@@ -24,29 +28,4 @@ spec:
     - name: docker
       hostPath:
         path: /var/run/docker.sock
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: webapp
-spec:
-  selector:
-    name: maven
-  ports:
-    - protocol: TCP
-      port: 80
-      type: LoadBalancer
----
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: ingress
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /
-        backend:
-          serviceName: webapp
-          servicePort: 80
-      
+
